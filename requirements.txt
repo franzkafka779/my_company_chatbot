@@ -1,11 +1,6 @@
 streamlit
 langchain
-langchain_community
-python-dotenv
 googletrans==4.0.0-rc1
-PyPDF2
-transformers
-sentence-transformers
+python-dotenv
 chromadb
-pysqlite3-binary
-flask
+huggingface-hub

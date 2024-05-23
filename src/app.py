@@ -16,7 +16,7 @@ load_dotenv()
 
 # Initialize vector database and model
 persist_directory = 'db'
-embedding = HuggingFaceEmbeddings(model_name='jhgan/ko-sroberta-multitask', cache_dir='db')
+embedding = HuggingFaceEmbeddings(model_name='jhgan/ko-sroberta-multitask')
 
 # Use pysqlite3 as sqlite3
 import sys

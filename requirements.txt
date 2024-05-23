@@ -7,3 +7,4 @@ PyPDF2
 transformers
 sentence-transformers
 chromadb
+pysqlite3-binary

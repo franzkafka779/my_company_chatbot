@@ -1,0 +1,6 @@
+streamlit
+langchain
+langchain_community
+python-dotenv
+googletrans==4.0.0-rc1
+PyPDF2

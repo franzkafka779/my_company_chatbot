@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
@@ -6,7 +7,6 @@ from langchain_community.chat_models import ChatOllama
 from langchain.chains.question_answering import load_qa_chain
 from dotenv import load_dotenv
 from googletrans import Translator
-import os
 
 st.header('Company Policy AI Chatbot', divider='rainbow')
 st.markdown('''Feel free to ask anything about the company policies! :balloon:''')
@@ -16,7 +16,13 @@ load_dotenv()
 
 # Initialize vector database and model
 persist_directory = 'db'
-embedding = HuggingFaceEmbeddings(model_name='jhgan/ko-sroberta-multitask')
+embedding = HuggingFaceEmbeddings(model_name='jhgan/ko-sroberta-multitask', cache_dir='db')
+
+# Use pysqlite3 as sqlite3
+import sys
+import pysqlite3
+sys.modules['sqlite3'] = pysqlite3
+
 vectordb = Chroma(persist_directory=persist_directory, embedding_function=embedding)
 
 class ChatGuide:

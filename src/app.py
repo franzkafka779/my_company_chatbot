@@ -3,11 +3,11 @@ from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.prompts import PromptTemplate
 from langchain_community.chat_models import ChatOllama
-from langchain.chains.question_answering import load_qa_chain
-from dotenv import load_dotenv
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from googletrans import Translator
+from dotenv import load_dotenv
+import os
 
 st.header('Company Policy AI Chatbot', divider='rainbow')
 st.markdown('''Feel free to ask anything about the company policies! :balloon:''')
@@ -15,13 +15,36 @@ st.markdown('''Feel free to ask anything about the company policies! :balloon:''
 # 환경 변수 로드
 load_dotenv()
 
-# 벡터 데이터베이스와 모델 초기화
-persist_directory = 'db'
-embedding = HuggingFaceEmbeddings(model_name='jhgan/ko-sroberta-multitask')
-vectordb = Chroma(persist_directory=persist_directory, embedding_function=embedding)
+# 여러 벡터 데이터베이스를 로드하는 함수
+def load_vector_dbs(db_dir):
+    embedding = HuggingFaceEmbeddings(model_name='jhgan/ko-sroberta-multitask')
+    vector_dbs = []
+    for db_path in os.listdir(db_dir):
+        full_path = os.path.join(db_dir, db_path)
+        if os.path.isdir(full_path):
+            vectordb = Chroma(persist_directory=full_path, embedding_function=embedding)
+            vector_dbs.append(vectordb)
+    return vector_dbs
+
+# Vector DBs 로드
+db_dir = "path_to_your_vector_dbs_directory"  # 실제 벡터 데이터베이스 폴더 경로로 변경하세요
+vector_dbs = load_vector_dbs(db_dir)
+
+# 여러 벡터 데이터베이스에서 검색할 수 있도록 설정
+class MultiVectorRetriever:
+    def __init__(self, vector_dbs):
+        self.vector_dbs = vector_dbs
+    
+    def retrieve(self, query):
+        results = []
+        for vectordb in self.vector_dbs:
+            results.extend(vectordb.as_retriever(search_kwargs={"k": 2}).retrieve(query))
+        return results
+
+retriever = MultiVectorRetriever(vector_dbs)
 
 class ChatGuide:
-    def __init__(self, model_name='llama3'):
+    def __init__(self, retriever, model_name='llama3'):
         self.model = ChatOllama(model=model_name)
         self.prompt = PromptTemplate.from_template(
             """
@@ -45,11 +68,8 @@ class ChatGuide:
             """
         )
         
-        # 기존의 벡터 데이터베이스를 사용하여 retriever 설정
-        self.retriever = vectordb.as_retriever(search_kwargs={"k": 2})
-
-        # QA 체인을 구성
-        self.chain = ({"context": self.retriever, "question": RunnablePassthrough()}
+        self.retriever = retriever
+        self.chain = ({"context": self.retriever.retrieve, "question": RunnablePassthrough()}
             | self.prompt
             | self.model  
             | StrOutputParser())
@@ -59,7 +79,7 @@ class ChatGuide:
 
 # ChatGuide 초기화
 if "chat_guide" not in st.session_state:
-    st.session_state["chat_guide"] = ChatGuide(model_name="llama3")
+    st.session_state["chat_guide"] = ChatGuide(retriever=retriever, model_name="llama3")
 
 # 번역기 초기화
 translator = Translator()

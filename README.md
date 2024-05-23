@@ -30,7 +30,7 @@ pip install -r requirements.txt
 Finally, start the application using Streamlit:
 
 ```bash
-streamlit run app.py
+streamlit run src/app.py
 ```
 
 Your chatbot application should now be up and running!

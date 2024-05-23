@@ -1,4 +1,3 @@
-# my_company_chatbot
 
 # My Company Chatbot
 Welcome to the My Company Chatbot project! This README will guide you through the installation process.

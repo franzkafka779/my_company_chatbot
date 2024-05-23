@@ -10,7 +10,6 @@ Follow these steps to set up the project on your local machine:
 First, clone the repository using git:
 
 ```bash
-Copy code
 git clone https://github.com/franzkafka779/my_company_chatbot.git
 ```
 
@@ -18,7 +17,6 @@ git clone https://github.com/franzkafka779/my_company_chatbot.git
 Change into the project directory:
 
 ```bash
-Copy code
 cd my_company_chatbot
 ```
 
@@ -26,7 +24,6 @@ cd my_company_chatbot
 Install the required Python packages listed in requirements.txt:
 
 ```bash
-Copy code
 pip install -r requirements.txt
 ```
 
@@ -34,7 +31,6 @@ pip install -r requirements.txt
 Finally, start the application using Streamlit:
 
 ```bash
-Copy code
 streamlit run app.py
 ```
 

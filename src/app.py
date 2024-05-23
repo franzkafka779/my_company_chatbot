@@ -7,6 +7,8 @@ from langchain_community.chat_models import ChatOllama
 from langchain.chains.question_answering import load_qa_chain
 from dotenv import load_dotenv
 from googletrans import Translator
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
 
 st.header('Company Policy AI Chatbot', divider='rainbow')
 st.markdown('''Feel free to ask anything about the company policies! :balloon:''')

@@ -27,7 +27,7 @@ def load_vector_dbs(db_dir):
     return vector_dbs
 
 # Vector DBs 로드
-db_dir = "path_to_your_vector_dbs_directory"  # 실제 벡터 데이터베이스 폴더 경로로 변경하세요
+db_dir = "../db"  # 실제 벡터 데이터베이스 폴더 경로로 변경하세요
 vector_dbs = load_vector_dbs(db_dir)
 
 # 여러 벡터 데이터베이스에서 검색할 수 있도록 설정

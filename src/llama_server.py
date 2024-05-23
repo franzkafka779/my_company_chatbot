@@ -4,7 +4,7 @@ from transformers import LlamaForCausalLM, LlamaTokenizer
 app = Flask(__name__)
 
 # Load the model and tokenizer
-model_name = "your-llama-model"
+model_name = "llama3"
 model = LlamaForCausalLM.from_pretrained(model_name)
 tokenizer = LlamaTokenizer.from_pretrained(model_name)
 

@@ -1,4 +1,3 @@
-import os
 import streamlit as st
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
@@ -10,8 +9,8 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from googletrans import Translator
 
-st.header('한기대 AI 휴먼 강의 프로젝트', divider='rainbow')
-st.markdown('''궁금한게 있으시면 질문해보세요!! :balloon:''')
+st.header('Company Policy AI Chatbot', divider='rainbow')
+st.markdown('''Feel free to ask anything about the company policies! :balloon:''')
 
 # 환경 변수 로드
 load_dotenv()
@@ -26,23 +25,22 @@ class ChatGuide:
         self.model = ChatOllama(model=model_name)
         self.prompt = PromptTemplate.from_template(
             """
-            당신은 학교 온라인 강의 플랫폼에서 학생들의 질문에 답변하는 AI 튜터입니다.
+            당신은 회사 상품정책에 대한 질문에 답변하는 AI 챗봇입니다.
             <지침>
-            1. 제공된 컨텍스트를 바탕으로 학생의 질문에 대해 최대한 정확하고 상세하게 답변해 주세요.
-            2. 답변은 학생의 수준에 맞는 쉬운 언어를 사용하되, 전문적인 지식을 바탕으로 작성해 주세요.
+            1. 제공된 컨텍스트를 바탕으로 질문에 대해 최대한 정확하고 상세하게 답변해 주세요.
+            2. 답변은 질문자가 이해하기 쉬운 언어를 사용하되, 전문적인 지식을 바탕으로 작성해 주세요.
             3. 답변에 관련된 핵심 개념이나 용어가 있다면 간단히 설명해 주세요.
             4. 실생활 예시나 시각 자료(이미지, 그래프, 다이어그램 등)를 활용하여 이해를 돕는 것이 좋습니다. 예시는 <예시></예시> 태그로 감싸 주세요.
             5. 추가 학습에 도움이 될 만한 자료나 참고 문헌이 있다면 링크 또는 출처를 제공해 주세요.
             6. 제공된 컨텍스트만으로 답변하기 어려운 경우, 관련 정보가 부족함을 알리고 추가 컨텍스트를 요청해 주세요.
-            7. 반드시 답변은 한국어로만 해주세요.
-            8. 모든 답변은 한국어로 작성해 주세요. 다른 언어를 사용하지 마세요.
+            7. 반드시 답변은 한국어로 작성해 주세요. 다른 언어를 사용하지 마세요.
             </지침>
             <컨텍스트>
             {context}
             </컨텍스트>
-            <학생 질문>
+            <질문>
             {question}
-            </학생 질문>
+            </질문>
             <답변>
             """
         )
@@ -67,12 +65,12 @@ if "chat_guide" not in st.session_state:
 translator = Translator()
 
 # Streamlit 애플리케이션 구성
-st.title("경영정보시스템개론 Chatbot")
+st.title("포커스미디어 Chatbot")
 
 with st.chat_message("user"):
-    st.write("MIS가 무엇입니까?!")
-    st.write("MIS가 최근 대두되는 이유는 무엇인가?")
-    st.write("MIS를 도입한 기업들의 사례를 알려줘")
+    st.write("부산지하철 상품구좌사이클에 관해 알려주세요.")
+    st.write("브랜드정보 제작투자비 쿠폰 제공 조건을 알려주세요.")
+    st.write("문화정보 상품의 서울생활권 금액을 알려주세요.")
                  
 # 대화 기록 초기화
 if "messages" not in st.session_state:

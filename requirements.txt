@@ -6,4 +6,4 @@ python-dotenv
 chromadb
 huggingface-hub
 sentence-transformers
-pysqlite3-binary
+sqlite3

@@ -43,7 +43,8 @@ class MultiVectorRetriever:
     def retrieve(self, query):
         results = []
         for vectordb in self.vector_dbs:
-            results.extend(vectordb.as_retriever(search_kwargs={"k": 2}).retrieve(query))
+            # results.extend(vectordb.as_retriever(search_kwargs={"k": 2}).retrieve(query))
+            results.extend(vectordb.similarity_search(query, k=2))
         return results
 
 retriever = MultiVectorRetriever(vector_dbs)

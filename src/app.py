@@ -9,6 +9,10 @@ from googletrans import Translator
 from dotenv import load_dotenv
 import os
 
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 st.header('Company Policy AI Chatbot', divider='rainbow')
 st.markdown('''Feel free to ask anything about the company policies! :balloon:''')
 

@@ -8,3 +8,4 @@ transformers
 sentence-transformers
 chromadb
 pysqlite3-binary
+flask
